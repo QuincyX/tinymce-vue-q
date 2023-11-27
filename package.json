@@ -17,6 +17,8 @@
   "keywords": [
     "tinymce"
   ],
+  "homepage": "https://github.com/QuincyX/tinymce-vue-q",
+  "repository": "git://github.com/QuincyX/tinymce-vue-q.git",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
