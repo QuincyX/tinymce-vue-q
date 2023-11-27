@@ -34,6 +34,14 @@ const editorValue = ref('')
 </script>
 ```
 
+### Options
+
+change default language
+```
+app.use(tinyMceVueQ, { language: 'en' })
+```
+
+
 ### Dependency
 
 - vite >= 4.0
@@ -44,7 +52,9 @@ const editorValue = ref('')
 - tinyMCE official release (by npm)
 - tinyMCE official plugin
 - default theme config
+- default locale: zh_CN
 - some optimize config
+- allow multiple instance
 
 ### Current
 

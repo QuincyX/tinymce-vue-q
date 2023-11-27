@@ -14,6 +14,8 @@ import langZhCn from './langs/zh_CN.js'
 import { configTheme } from './config/theme'
 import { configPlugin } from './config/plugin'
 
+import { globalConfig } from '../provider/config'
+
 tinymce.addI18n('zh_CN', langZhCn)
 
 const emits = defineEmits(['update:modelValue'])
@@ -37,8 +39,7 @@ function initWrapper() {
   tinymce.init({
     selector: `#${editorId}`,
     height: Number(props.height),
-    language_url: langZhCn,
-    language: 'zh_CN',
+    language: globalConfig.value.language,
     ...configPlugin,
     ...configTheme
   })
