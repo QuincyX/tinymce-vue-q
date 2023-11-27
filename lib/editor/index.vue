@@ -61,6 +61,7 @@ function removeWrapper() {
 }
 
 onMounted(() => {
+  console.log('>>>>>>> isMounted.value', isMounted.value)
   if (!isMounted.value) {
     initWrapper()
   }
@@ -77,3 +78,9 @@ onDeactivated(() => {
   removeWrapper()
 })
 </script>
+
+<style scoped>
+@import 'tinymce/skins/ui/oxide/skin.css';
+@import './skins/oxide/skin.min.css';
+@import './skins/oxide/content.min.css';
+</style>
