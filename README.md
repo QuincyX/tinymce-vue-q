@@ -16,6 +16,7 @@ import
 // src/main.js
 
 import tinyMceQ from '@quincyx/tinymce-vue-q'
+import '@quincyx/tinymce-vue-q/dist/style.css'
 
 app.use(tinyMceQ)
 ```
