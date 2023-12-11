@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
+import { ref, onMounted, onBeforeUnmount, onActivated, onDeactivated, watch } from 'vue'
 import tinymce from 'tinymce/tinymce'
 import { nanoid } from 'nanoid'
 
@@ -60,6 +60,14 @@ function removeWrapper() {
   isMounted.value = false
 }
 
+watch(
+  () => props.modelValue,
+  val => {
+    if (isMounted.value) {
+      vueEditor.setContent(val)
+    }
+  }
+)
 onMounted(() => {
   if (!isMounted.value) {
     initWrapper()

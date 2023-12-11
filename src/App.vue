@@ -14,10 +14,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const editorValue = ref('')
 const editorValue2 = ref('')
+
+onMounted(() => {
+  setTimeout(() => {
+    editorValue.value = '<p>hello world</p>'
+    editorValue2.value = '<p>hello world</p>'
+  }, 3000)
+})
 </script>
 
 <style scoped>
