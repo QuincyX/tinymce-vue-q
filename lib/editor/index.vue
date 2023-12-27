@@ -60,14 +60,6 @@ function removeWrapper() {
   isMounted.value = false
 }
 
-watch(
-  () => props.modelValue,
-  val => {
-    if (isMounted.value) {
-      vueEditor.setContent(val)
-    }
-  }
-)
 onMounted(() => {
   if (!isMounted.value) {
     initWrapper()
