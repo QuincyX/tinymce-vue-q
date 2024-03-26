@@ -7,6 +7,7 @@
   </div>
   <div class="card">
     <div class="container">{{ editorValue }}</div>
+    <input v-model="editorValue" />
   </div>
   <div class="card">
     <div class="container">{{ editorValue2 }}</div>

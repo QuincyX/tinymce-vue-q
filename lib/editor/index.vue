@@ -63,7 +63,7 @@ function removeWrapper() {
 watch(
   () => props.modelValue,
   val => {
-    if (isMounted.value && vueEditor) {
+    if (isMounted.value && vueEditor && props.modelValue !== vueEditor.getContent()) {
       vueEditor.setContent(val)
     }
   }
