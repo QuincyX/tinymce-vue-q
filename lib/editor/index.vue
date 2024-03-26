@@ -1,11 +1,11 @@
 <template>
   <div class="editorContainer">
-    <textarea :id="editorId" />
+    <textarea :id="editorId" v-show="isMounted" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, onActivated, onDeactivated, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, onActivated, onDeactivated, watch, nextTick } from 'vue'
 import tinymce from 'tinymce/tinymce'
 import { nanoid } from 'nanoid'
 
@@ -30,44 +30,49 @@ const props = defineProps({
   }
 })
 
-let vueEditor = null
+let vueEditor = ref(null)
 const editorId = `textareaContainer-${nanoid(10)}`
 const isMounted = ref(false)
 
 function initWrapper() {
   if (!tinymce) return
   tinymce.init({
+    license_key: 'gpl',
     selector: `#${editorId}`,
     height: Number(props.height),
     language: globalConfig.value.language,
     ...configPlugin,
-    ...configTheme
-  })
-  vueEditor = tinymce.activeEditor
-  isMounted.value = true
-  vueEditor.on('input', () => {
-    emits('update:modelValue', vueEditor.getContent())
-  })
-  vueEditor.on('change', () => {
-    emits('update:modelValue', vueEditor.getContent())
-  })
-  vueEditor.on('init', () => {
-    vueEditor.setContent(props.modelValue)
+    ...configTheme,
+    setup: editor => {
+      vueEditor.value = editor
+      editor.on('change input undo redo', () => {
+        emits('update:modelValue', editor.getContent())
+      })
+      editor.on('init', () => {
+        editor.setContent(props.modelValue || '', { format: 'raw' })
+      })
+      isMounted.value = true
+    }
   })
 }
 function removeWrapper() {
-  tinymce.remove(vueEditor)
+  tinymce.remove(vueEditor.value)
   isMounted.value = false
 }
 
-watch(
-  () => props.modelValue,
-  val => {
-    if (isMounted.value && vueEditor && props.modelValue !== vueEditor.getContent()) {
-      vueEditor.setContent(val)
+function setContent(content) {
+  nextTick(() => {
+    if (vueEditor.value) {
+      setTimeout(() => {
+        vueEditor.value.setContent(content || props.modelValue || '', { format: 'raw' })
+      }, 100)
     }
-  }
-)
+  })
+}
+
+defineExpose({
+  setContent
+})
 
 onMounted(() => {
   if (!isMounted.value) {
